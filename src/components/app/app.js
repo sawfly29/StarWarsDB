@@ -3,13 +3,13 @@ import Header from "../header";
 import RandomPlanet from "../random-planet";
 import ErrorBoundry from "../error-boundry";
 import ErrorIndicator from "../error-indicator";
-
+import {SwapiServiceProvider, SwapiServiceContext} from '../swapi-service-context'
 import ItemDetails, { Record } from "../item-details/item-details";
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
 
 import "./app.css";
-import ItemList from "../item-list/item-list";
+//import ItemList from "../item-list/item-list";
 import {
   PersonList,
   StarshipList,
@@ -66,6 +66,7 @@ class App extends React.Component {
     );
     return (
       <ErrorBoundry>
+        <SwapiServiceProvider value = {this.swapiService}>
         <div>
           <Header />
           <PersonDetails itemId = {5} />
@@ -83,6 +84,7 @@ class App extends React.Component {
             {(i) => `${i.name}`}
           </StarshipList>
         </div>
+        </SwapiServiceProvider>
       </ErrorBoundry>
     );
   }
