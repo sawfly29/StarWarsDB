@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import Spinner from "../spinner";
 
-const withData = (View, getData) => {
+const withData = (View) => {
     return class extends Component {
       state = {
         data: null,
       };
       componentDidMount() {
-        getData().then((data) => {
+        this.props.getData().then((data) => {
           this.setState({ data });
         });
       }
@@ -22,6 +22,7 @@ const withData = (View, getData) => {
     }
   
   }
+  
 
   export default withData
   

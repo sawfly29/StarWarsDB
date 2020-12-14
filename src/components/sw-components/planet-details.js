@@ -1,15 +1,15 @@
 import React from "react";
 import ItemDetails, { Record } from "../item-details";
 import { SwapiServiceConsumer } from "../swapi-service-context";
+import {withSwapiService} from "../hoc-helpers";
+
 
 
 const PlanetDetails = ({itemId}) => {
   return (
     <SwapiServiceConsumer>
-      {(getPlanet, getPlanetImage) => {<ItemDetails
-      itemId={itemId}
-      getData={getPlanet}
-      getImageUrl={getPlanetImage}
+      {props => {<ItemDetails
+            {...props}
     >
       <Record field="population" label="Population" />
       <Record field="rotationPeriod" label="Rotation period" />
@@ -19,6 +19,11 @@ const PlanetDetails = ({itemId}) => {
     )
 };
 
+const mapMethodsToProps = (swapiService) => {
+  return {
+    getData: swapiService.getPlanet,
+    getImageUrl: swapiService.getPlanetImage
+  }
+}
 
-
-export default PlanetDetails;
+export default withSwapiService (PlanetDetails, mapMethodsToProps)
