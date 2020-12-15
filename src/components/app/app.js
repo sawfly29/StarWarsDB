@@ -7,6 +7,7 @@ import {SwapiServiceProvider, SwapiServiceContext} from '../swapi-service-contex
 import ItemDetails, { Record } from "../item-details/item-details";
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
+import DummySwapiService from '../../services/dummy-swapi-service'
 
 import "./app.css";
 //import ItemList from "../item-list/item-list";
@@ -20,12 +21,19 @@ import {
 } from "../sw-components";
 
 class App extends React.Component {
-  swapiService = new SwapiService();
+ // swapiService = new SwapiService();
+ // dummySwapiService = new DummySwapiService();
+
 
   state = {
     showRandomPlanet: true,
     applicationError: false,
+    swapiService: new DummySwapiService()
   };
+
+ onServiceChange () {
+  console.log(this.state.swapiService)
+}
 
   componentDidCatch() {
     console.log("app catched error");
@@ -37,6 +45,7 @@ class App extends React.Component {
       return <ErrorIndicator />;
     }
 
+
     const {
       getPersonImage,
       getStarshipImage,
@@ -44,7 +53,7 @@ class App extends React.Component {
       getStarship,
       getAllPlanets,
       getPlanet
-    } = this.swapiService;
+    } = this.state.swapiService;
 
     const personDetails = (
       <ItemDetails itemId={6} getData={getPerson} getImageUrl={getPersonImage}>
@@ -66,9 +75,9 @@ class App extends React.Component {
     );
     return (
       <ErrorBoundry>
-        <SwapiServiceProvider value = {this.swapiService}>
+        <SwapiServiceProvider value = {this.state.swapiService}>
         <div>
-          <Header />
+          <Header onServiceChange = {this.onServiceChange}/>
           <PersonDetails itemId = {5} />
           <StarshipDetails itemId = {29} />
           <PlanetDetails itemId = {7} />
