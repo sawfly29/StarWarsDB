@@ -31,8 +31,12 @@ class App extends React.Component {
     swapiService: new DummySwapiService()
   };
 
- onServiceChange () {
-  console.log(this.state.swapiService)
+ onServiceChange = () =>{
+  this.setState(({swapiService}) => {
+    const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+    console.log('swserv ', Service.name)
+    return {swapiService: new Service()}
+  })
 }
 
   componentDidCatch() {
