@@ -3,11 +3,12 @@ import Header from "../header";
 import RandomPlanet from "../random-planet";
 import ErrorBoundry from "../error-boundry";
 import ErrorIndicator from "../error-indicator";
-import {SwapiServiceProvider, SwapiServiceContext} from '../swapi-service-context'
+import {SwapiServiceProvider} from '../swapi-service-context'
 import ItemDetails, { Record } from "../item-details/item-details";
 import SwapiService from "../../services/swapi-service";
 import Row from "../row";
 import DummySwapiService from '../../services/dummy-swapi-service'
+import {PeoplePage, PlanetsPage, StarshipPage} from '../pages'
 
 import "./app.css";
 //import ItemList from "../item-list/item-list";
@@ -28,13 +29,13 @@ class App extends React.Component {
   state = {
     showRandomPlanet: true,
     applicationError: false,
-    swapiService: new DummySwapiService()
+    swapiService: new SwapiService()
   };
 
  onServiceChange = () =>{
   this.setState(({swapiService}) => {
     const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
-    console.log('swserv ', Service.name)
+   // console.log('swserv ', Service.name)
     return {swapiService: new Service()}
   })
 }
@@ -55,8 +56,6 @@ class App extends React.Component {
       getStarshipImage,
       getPerson,
       getStarship,
-      getAllPlanets,
-      getPlanet
     } = this.state.swapiService;
 
     const personDetails = (
@@ -83,19 +82,10 @@ class App extends React.Component {
         <div>
           <Header onServiceChange = {this.onServiceChange}/>
           <PersonDetails itemId = {5} />
-          <StarshipDetails itemId = {29} />
-          <PlanetDetails itemId = {7} />
           <RandomPlanet />
-          <Row leftColumn={personDetails} rightColumn={starshipDetails} />
-          <PersonList onItemSelected={() => {}}>
-            {(i) => `${i.name}`}
-          </PersonList>
-          <PlanetList onItemSelected={() => {}}>
-            {(i) => `${i.name}`}
-          </PlanetList>
-          <StarshipList onItemSelected={() => {}}>
-            {(i) => `${i.name}`}
-          </StarshipList>
+        <PlanetsPage/>
+ 
+         <StarshipPage />
         </div>
         </SwapiServiceProvider>
       </ErrorBoundry>
